@@ -2,15 +2,42 @@
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-wrapper {
-  width: 30%;
+.set-counter {
+  width: 300px;
+  height: 30vh;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin-right: 50px;
+}
+
+.set-controls {
+  width: 80%;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.set-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.set-item:first-child {
+  margin-bottom: 10px;
+}
+
+.main-counter{
+  width: 200px;
   height: 30vh;
   border: 1px solid #ffffff;
   border-radius: 3px;
@@ -22,7 +49,7 @@
 
 .display {
   width: 70%;
-  height: 30%;
+  height: 86px;
   border: 1px solid #ffffff;
   border-radius: 3px;
   display: flex;
