@@ -10,7 +10,9 @@ class App extends React.Component {
     state = {
         value: 0,
         startValue: 0,
-        maxValue: 0,
+        startText: 'enter values and press \'set\' ',
+        errorText: 'Incorrect value!',
+        maxValue: '',
         buttons: [
             {title: 'inc', disabled: true},
             {title: 'reset', disabled: true},
@@ -32,7 +34,7 @@ class App extends React.Component {
         let buttonsCopy = [...this.state.buttons];
         buttonsCopy[0].disabled = false;
         buttonsCopy[1].disabled = true;
-        this.setState({value: 0, buttons: buttonsCopy});
+        this.setState({value: this.state.startValue, buttons: buttonsCopy});
     };
 
     disableButtons = (value) => {
@@ -48,7 +50,7 @@ class App extends React.Component {
     };
 
     setStartValue = (e) => {
-        this.setState({startValue: e.currentTarget.value})
+        this.setState({startValue: e.currentTarget.value});
     };
 
     setMaxValue = (e) => {
@@ -66,7 +68,9 @@ class App extends React.Component {
 
                     <div className="set-counter">
 
-                        <SetControls setStartValue={this.setStartValue} setMaxValue={this.setMaxValue}/>
+                        <SetControls setStartValue={this.setStartValue}
+                                     setMaxValue={this.setMaxValue}
+                                     startValue={this.state.startValue}/>
 
                         <div className="set-buttons">
                             <Button setValue={this.setValue} title="set"/>
@@ -74,10 +78,17 @@ class App extends React.Component {
                     </div>
 
                     <div className="main-counter">
-                        <Display value={this.state.value} maxValue={this.state.maxValue}/>
+
+                        <Display value={this.state.value}
+                                 startValue={this.state.startValue}
+                                 maxValue={this.state.maxValue}
+                                 startText={this.state.startText}
+                                 errorText={this.state.errorText}/>
+
                         <Buttons buttons={this.state.buttons}
                                  changeState={this.changeState}
                                  resetState={this.resetState}/>
+
                     </div>
 
 

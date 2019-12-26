@@ -5,7 +5,9 @@ const Display = (props) => {
     let endClass = props.value === +(props.maxValue) ? 'end': '';
     return (
         <div className="display">
-            <span className={endClass}>{props.value}</span>
+            {props.value === 0
+                    ? <span className="startText">{props.startText}</span>
+                    : <span className={endClass}>{props.value}</span>}
         </div>
     );
 };
