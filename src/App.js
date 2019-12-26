@@ -3,13 +3,16 @@ import './App.css';
 import Display from "./components/Display";
 import Buttons from "./components/Buttons";
 import Button from "./components/Button";
+import SetControls from "./components/SetControls";
 
 class App extends React.Component {
 
     state = {
         value: 0,
+        startValue: 0,
+        maxValue: 0,
         buttons: [
-            {title: 'inc', disabled: false},
+            {title: 'inc', disabled: true},
             {title: 'reset', disabled: true},
         ]
     };
@@ -17,11 +20,9 @@ class App extends React.Component {
     changeState = () => {
         let value = this.state.value;
         value++;
-        // let buttonsCopy = [...this.state.buttons];
-        // buttonsCopy[1].disabled = true;
         if (value >= 1) {
             this.disableButtons(value);
-            if (value <= 3) {
+            if (value <= this.state.maxValue) {
                 this.setState({value: value});
             }
         }
@@ -37,12 +38,26 @@ class App extends React.Component {
     disableButtons = (value) => {
         if (value >= 1) {
             let buttonsCopy = [...this.state.buttons];
+            buttonsCopy[0].disabled = false;
             buttonsCopy[1].disabled = false;
             this.setState({buttons: buttonsCopy});
-            if (value === 3) {
+            if (value === Number(this.state.maxValue)) {
                 buttonsCopy[0].disabled = true;
             }
         }
+    };
+
+    setStartValue = (e) => {
+        this.setState({startValue: e.currentTarget.value})
+    };
+
+    setMaxValue = (e) => {
+        this.setState({maxValue: e.currentTarget.value});
+    };
+
+    setValue = () => {
+        this.disableButtons(this.state.startValue);
+        this.setState({value: this.state.startValue});
     };
 
     render() {
@@ -50,24 +65,18 @@ class App extends React.Component {
                 <div className="App">
 
                     <div className="set-counter">
-                        <div className="set-controls">
-                            <div className="set-item">
-                                <label htmlFor="maxValue"> max value:</label>
-                                <input id="maxValue" type="number"/>
-                            </div>
-                            <div className="set-item">
-                                <label htmlFor="startValue"> start value:</label>
-                                <input id="startValue" type="number"/>
-                            </div>
-                        </div>
+
+                        <SetControls setStartValue={this.setStartValue} setMaxValue={this.setMaxValue}/>
+
                         <div className="set-buttons">
-                            <Button title="set"/>
+                            <Button setValue={this.setValue} title="set"/>
                         </div>
                     </div>
 
                     <div className="main-counter">
-                        <Display value={this.state.value}/>
-                        <Buttons buttons={this.state.buttons} changeState={this.changeState}
+                        <Display value={this.state.value} maxValue={this.state.maxValue}/>
+                        <Buttons buttons={this.state.buttons}
+                                 changeState={this.changeState}
                                  resetState={this.resetState}/>
                     </div>
 

@@ -6,10 +6,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  flex-wrap: wrap;
 }
 
 .set-counter {
-  width: 300px;
+  width: 350px;
   height: 30vh;
   border: 1px solid #ffffff;
   border-radius: 3px;

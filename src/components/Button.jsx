@@ -4,7 +4,7 @@ import '../App.css';
 const Button = (props) => {
     return (
         <div>
-            <button className="btn" disabled={props.disabled} onClick={props.changeState || props.resetState}>{props.title}</button>
+            <button className="btn" disabled={props.disabled} onClick={ props.setValue || props.changeState || props.resetState}>{props.title}</button>
         </div>
     );
 };
