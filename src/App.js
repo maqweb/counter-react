@@ -16,6 +16,7 @@ class App extends React.Component {
         buttons: [
             {title: 'inc', disabled: true},
             {title: 'reset', disabled: true},
+            {title: 'set', disabled: false}
         ]
     };
 
@@ -38,10 +39,18 @@ class App extends React.Component {
     };
 
     disableButtons = (value) => {
+
+        if (value < 0) {
+            let buttonsCopy = [...this.state.buttons];
+            buttonsCopy[2].disabled = true;
+            this.setState({buttons: buttonsCopy})
+        }
+
         if (value >= 1) {
             let buttonsCopy = [...this.state.buttons];
             buttonsCopy[0].disabled = false;
             buttonsCopy[1].disabled = false;
+            buttonsCopy[2].disabled = false;
             this.setState({buttons: buttonsCopy});
             if (value === Number(this.state.maxValue)) {
                 buttonsCopy[0].disabled = true;
@@ -51,6 +60,7 @@ class App extends React.Component {
 
     setStartValue = (e) => {
         this.setState({startValue: e.currentTarget.value});
+        this.disableButtons(e.currentTarget.value)
     };
 
     setMaxValue = (e) => {
@@ -73,7 +83,8 @@ class App extends React.Component {
                                      startValue={this.state.startValue}/>
 
                         <div className="set-buttons">
-                            <Button setValue={this.setValue} title="set"/>
+                            <Button setValue={this.setValue}
+                                    title={this.state.buttons[2].title} disabled={this.state.buttons[2].disabled}/>
                         </div>
                     </div>
 
