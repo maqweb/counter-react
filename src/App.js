@@ -4,21 +4,22 @@ import Display from "./components/Display";
 import Buttons from "./components/Buttons";
 import Button from "./components/Button";
 import SetControls from "./components/SetControls";
+import {connect} from "react-redux";
 
 class App extends React.Component {
 
-    state = {
-        value: 0,
-        startValue: 0,
-        startText: 'enter values and press \'set\' ',
-        errorText: 'Incorrect value!',
-        maxValue: '',
-        buttons: [
-            {title: 'inc', disabled: true},
-            {title: 'reset', disabled: true},
-            {title: 'set', disabled: false}
-        ]
-    };
+    // state = {
+    //     value: 0,
+    //     startValue: 0,
+    //     startText: 'enter values and press \'set\' ',
+    //     errorText: 'Incorrect value!',
+    //     maxValue: '',
+    //     buttons: [
+    //         {title: 'inc', disabled: true},
+    //         {title: 'reset', disabled: true},
+    //         {title: 'set', disabled: false}
+    //     ]
+    // };
 
     changeState = () => {
         let value = this.state.value;
@@ -74,39 +75,54 @@ class App extends React.Component {
 
     render() {
         return (
-                <div className="App">
+            <div className="App">
 
-                    <div className="set-counter">
+                <div className="set-counter">
 
-                        <SetControls setStartValue={this.setStartValue}
-                                     setMaxValue={this.setMaxValue}
-                                     startValue={this.state.startValue}/>
+                    <SetControls setStartValue={this.props.setStartValue}
+                                 setMaxValue={this.props.setMaxValue}
+                                 startValue={this.props.startValue}/>
 
-                        <div className="set-buttons">
-                            <Button setValue={this.setValue}
-                                    title={this.state.buttons[2].title} disabled={this.state.buttons[2].disabled}/>
-                        </div>
+                    <div className="set-buttons">
+                        <Button setValue={this.setValue}
+                                title={this.props.buttons[2].title} disabled={this.props.buttons[2].disabled}/>
                     </div>
+                </div>
 
-                    <div className="main-counter">
+                <div className="main-counter">
 
-                        <Display value={this.state.value}
-                                 startValue={this.state.startValue}
-                                 maxValue={this.state.maxValue}
-                                 startText={this.state.startText}
-                                 errorText={this.state.errorText}/>
+                    <Display value={this.props.value}
+                             startValue={this.props.startValue}
+                             maxValue={this.props.maxValue}
+                             startText={this.props.startText}
+                             errorText={this.props.errorText}/>
 
-                        <Buttons buttons={this.state.buttons}
-                                 changeState={this.changeState}
-                                 resetState={this.resetState}/>
-
-                    </div>
-
+                    <Buttons buttons={this.props.buttons}
+                             changeState={this.changeState}
+                             resetState={this.resetState}/>
 
                 </div>
+
+
+            </div>
         );
     }
-
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        value: state.value,
+        startValue: state.startValue,
+        startText: state.startText,
+        errorText: state.errorText,
+        maxValue: state.maxValue,
+        buttons: state.buttons
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {}
+};
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+export default ConnectedApp;
