@@ -5,8 +5,8 @@ function SetControls(props) {
     return (
             <div className="set-controls">
 
-                <Control setMaxValue={props.setMaxValue} controlTitle="max value:"/>
-                <Control setStartValue={props.setStartValue} startValue={props.startValue} controlTitle="start value:"/>
+                <Control onSetMaxValue={props.onSetMaxValue} controlTitle="max value:"/>
+                <Control onSetStartValue={props.onSetStartValue} startValue={props.startValue} controlTitle="start value:"/>
 
             </div>
     )

@@ -5,6 +5,7 @@ import Buttons from "./components/Buttons";
 import Button from "./components/Button";
 import SetControls from "./components/SetControls";
 import {connect} from "react-redux";
+import {setMaxValueAC, setStartValueAC, setValuesAC} from "./store/reducer";
 
 class App extends React.Component {
 
@@ -59,18 +60,19 @@ class App extends React.Component {
         }
     };
 
-    setStartValue = (e) => {
-        this.setState({startValue: e.currentTarget.value});
-        this.disableButtons(e.currentTarget.value)
+    onSetStartValue = (e) => {
+        this.props.setStartValue(e.currentTarget.value);
+        // this.disableButtons(e.currentTarget.value)
     };
 
-    setMaxValue = (e) => {
-        this.setState({maxValue: e.currentTarget.value});
+    onSetMaxValue = (e) => {
+        this.props.setMaxValue(e.currentTarget.value)
     };
 
-    setValue = () => {
-        this.disableButtons(this.state.startValue);
-        this.setState({value: this.state.startValue});
+    onSetValue = () => {
+        this.props.setValues(this.props.startValue);
+        // this.disableButtons(this.state.startValue);
+        // this.setState({value: this.state.startValue});
     };
 
     render() {
@@ -79,12 +81,12 @@ class App extends React.Component {
 
                 <div className="set-counter">
 
-                    <SetControls setStartValue={this.props.setStartValue}
-                                 setMaxValue={this.props.setMaxValue}
+                    <SetControls onSetStartValue={this.onSetStartValue}
+                                 onSetMaxValue={this.onSetMaxValue}
                                  startValue={this.props.startValue}/>
 
                     <div className="set-buttons">
-                        <Button setValue={this.setValue}
+                        <Button onSetValue={this.onSetValue}
                                 title={this.props.buttons[2].title} disabled={this.props.buttons[2].disabled}/>
                     </div>
                 </div>
@@ -121,7 +123,20 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {}
+    return {
+        setStartValue: (startValue) => {
+            const action = setStartValueAC(startValue);
+            dispatch(action)
+        },
+        setMaxValue: (maxValue) => {
+            const action = setMaxValueAC(maxValue);
+            dispatch(action)
+        },
+        setValues: (value) => {
+            const action = setValuesAC(value);
+            dispatch(action);
+        }
+    }
 };
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);

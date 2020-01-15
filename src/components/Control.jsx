@@ -5,7 +5,7 @@ function Control(props) {
     return (
             <div className="set-item">
                 <label className="label" htmlFor="control"><span>{props.controlTitle}</span>
-                    <input className={errorClass} onClick={props.setStartValue || props.setMaxValue} type="number"/>
+                    <input className={errorClass} onClick={props.onSetStartValue || props.onSetMaxValue} type="number"/>
                 </label>
             </div>
     )
