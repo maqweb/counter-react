@@ -5,7 +5,7 @@ import Buttons from "./components/Buttons";
 import Button from "./components/Button";
 import SetControls from "./components/SetControls";
 import {connect} from "react-redux";
-import {setMaxValueAC, setStartValueAC, setValuesAC} from "./store/reducer";
+import {disableButtonsAC, setMaxValueAC, setStartValueAC, setValuesAC} from "./store/reducer";
 
 class App extends React.Component {
 
@@ -134,6 +134,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         setValues: (value) => {
             const action = setValuesAC(value);
+            dispatch(action);
+        },
+        disableButtons: (buttonId) => {
+            const action = disableButtonsAC(buttonId);
             dispatch(action);
         }
     }

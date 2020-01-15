@@ -50,4 +50,8 @@ export const setMaxValueAC = (maxValue) => {
     return {type: SET_MAX_VALUE, maxValue}
 };
 
+export const disableButtonsAC = (buttonId) => {
+    return {type: DISABLE_BUTTONS, buttonId}
+}
+
 export default reducer;
