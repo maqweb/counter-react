@@ -5,64 +5,50 @@ import Buttons from "./components/Buttons";
 import Button from "./components/Button";
 import SetControls from "./components/SetControls";
 import {connect} from "react-redux";
-import {disableButtonsAC, setMaxValueAC, setStartValueAC, setValuesAC} from "./store/reducer";
+import {
+    disableIncButtonAC, disableResButtonAC,
+    disableSetButtonAC,
+    incValueAC, resetIncValueAC,
+    setMaxValueAC,
+    setStartValueAC,
+    setValuesAC
+} from "./store/reducer";
 
 class App extends React.Component {
 
-    // state = {
-    //     value: 0,
-    //     startValue: 0,
-    //     startText: 'enter values and press \'set\' ',
-    //     errorText: 'Incorrect value!',
-    //     maxValue: '',
-    //     buttons: [
-    //         {title: 'inc', disabled: true},
-    //         {title: 'reset', disabled: true},
-    //         {title: 'set', disabled: false}
-    //     ]
-    // };
-
     changeState = () => {
-        let value = this.state.value;
+        let value = this.props.value;
         value++;
+        // if (value >= 1) {
+        //     this.disableButtons(value);
+        //     if (value <= this.state.maxValue) {
+        //         this.setState({value: value});
+        //     }
+        // }
         if (value >= 1) {
-            this.disableButtons(value);
-            if (value <= this.state.maxValue) {
-                this.setState({value: value});
-            }
+            this.props.disableResButton(value);
+        } else if (value === this.props.maxValue) {
+            debugger
+            this.props.disableResButton(value);
         }
+        this.props.incValue(value);
     };
 
     resetState = () => {
-        let buttonsCopy = [...this.state.buttons];
-        buttonsCopy[0].disabled = false;
-        buttonsCopy[1].disabled = true;
-        this.setState({value: this.state.startValue, buttons: buttonsCopy});
-    };
-
-    disableButtons = (value) => {
-
-        if (value < 0) {
-            let buttonsCopy = [...this.state.buttons];
-            buttonsCopy[2].disabled = true;
-            this.setState({buttons: buttonsCopy})
-        }
-
-        if (value >= 1) {
-            let buttonsCopy = [...this.state.buttons];
-            buttonsCopy[0].disabled = false;
-            buttonsCopy[1].disabled = false;
-            buttonsCopy[2].disabled = false;
-            this.setState({buttons: buttonsCopy});
-            if (value === Number(this.state.maxValue)) {
-                buttonsCopy[0].disabled = true;
-            }
-        }
+        // let buttonsCopy = [...this.state.buttons];
+        // buttonsCopy[0].disabled = false;
+        // buttonsCopy[1].disabled = true;
+        // this.setState({value: this.state.startValue, buttons: buttonsCopy});
+        this.props.resetIncValue(this.props.startValue);
     };
 
     onSetStartValue = (e) => {
         this.props.setStartValue(e.currentTarget.value);
-        // this.disableButtons(e.currentTarget.value)
+        this.onDisableSetButton(e.currentTarget.value)
+    };
+
+    onDisableSetButton = (value) => {
+        this.props.disableSetButton(value);
     };
 
     onSetMaxValue = (e) => {
@@ -71,11 +57,15 @@ class App extends React.Component {
 
     onSetValue = () => {
         this.props.setValues(this.props.startValue);
-        // this.disableButtons(this.state.startValue);
-        // this.setState({value: this.state.startValue});
+        this.onDisableIncButton(this.props.startValue);
     };
 
-    render() {
+    onDisableIncButton = (value) => {
+        this.props.disableIncButton(value);
+    };
+
+    render = () => {
+
         return (
             <div className="App">
 
@@ -86,8 +76,15 @@ class App extends React.Component {
                                  startValue={this.props.startValue}/>
 
                     <div className="set-buttons">
+
+                        {/*{setButton}*/}
+
                         <Button onSetValue={this.onSetValue}
+                                id={this.props.buttons[2].id}
                                 title={this.props.buttons[2].title} disabled={this.props.buttons[2].disabled}/>
+
+                        {/*<Button onSetValue={this.onSetValue} buttons={this.props.buttons}/>*/}
+
                     </div>
                 </div>
 
@@ -104,8 +101,6 @@ class App extends React.Component {
                              resetState={this.resetState}/>
 
                 </div>
-
-
             </div>
         );
     }
@@ -136,9 +131,25 @@ const mapDispatchToProps = (dispatch) => {
             const action = setValuesAC(value);
             dispatch(action);
         },
-        disableButtons: (buttonId) => {
-            const action = disableButtonsAC(buttonId);
+        disableSetButton: (value) => {
+            const action = disableSetButtonAC(value);
             dispatch(action);
+        },
+        disableIncButton: (value) => {
+            const action = disableIncButtonAC(value);
+            dispatch(action)
+        },
+        disableResButton: (value) => {
+            const action = disableResButtonAC(value);
+            dispatch(action)
+        },
+        incValue: (value) => {
+            const action = incValueAC(value);
+            dispatch(action);
+        },
+        resetIncValue: (value) => {
+            const action = resetIncValueAC(value);
+            dispatch(action)
         }
     }
 };

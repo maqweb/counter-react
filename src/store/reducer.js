@@ -1,7 +1,11 @@
 const SET_START_VALUE = 'SET_START_VALUE';
 const SET_MAX_VALUE = 'SET_MAX_VALUE';
 const SET_VALUES = 'SET_VALUES';
-const DISABLE_BUTTONS = 'DISABLE_BUTTONS';
+const DISABLE_SET_BUTTON = 'DISABLE_SET_BUTTON';
+const DISABLE_INC_BUTTON = 'DISABLE_INC_BUTTON';
+const DISABLE_RES_BUTTON = 'DISABLE_RES_BUTTON';
+const INC_VALUE = 'INC_VALUE';
+const RESET_INC_VALUE = 'RESET_INC_VALUE';
 
 const intitialState = {
     value: 0,
@@ -12,7 +16,7 @@ const intitialState = {
     buttons: [
         {title: 'inc', disabled: true, id: 1},
         {title: 'reset', disabled: true, id: 2},
-        {title: 'set', disabled: false, id: 3}
+        {title: 'set', disabled: true, id: 3}
     ]
 };
 
@@ -33,6 +37,54 @@ const reducer = (state = intitialState, action) => {
                 ...state,
                 value: action.value
             };
+        case DISABLE_SET_BUTTON:
+            return {
+                ...state,
+                buttons: state.buttons.map(b => {
+                    if (+(action.value) === 1 && b.id === 3) {
+                        return  {...b, disabled: false}
+                    } else {
+                        return b;
+                    }
+                })
+            };
+        case DISABLE_INC_BUTTON:
+            return {
+                ...state,
+                buttons: state.buttons.map(b => {
+                    if (b.id === 1) {
+                        if (state.maxValue === action.value) {
+                            debugger
+                            return {...b, disabled: true}
+                        } else {
+                            return {...b, disabled: false}
+                        }
+                    } else {
+                        return b;
+                    }
+                })
+            };
+        case DISABLE_RES_BUTTON:
+            return {
+                ...state,
+                buttons: state.buttons.map(b => {
+                    if (b.id === 2) {
+                        return {...b, disabled: false}
+                    } else {
+                        return b;
+                    }
+                })
+            };
+        case INC_VALUE:
+            return {
+                ...state,
+                value: action.value
+            };
+        case RESET_INC_VALUE:
+            return  {
+                ...state,
+                value: action.value
+            };
         default:
             return state;
     }
@@ -50,8 +102,24 @@ export const setMaxValueAC = (maxValue) => {
     return {type: SET_MAX_VALUE, maxValue}
 };
 
-export const disableButtonsAC = (buttonId) => {
-    return {type: DISABLE_BUTTONS, buttonId}
-}
+export const disableSetButtonAC = (value) => {
+    return {type: DISABLE_SET_BUTTON, value}
+};
+
+export const disableIncButtonAC = (value) => {
+    return {type: DISABLE_INC_BUTTON, value}
+};
+
+export const disableResButtonAC = (value) => {
+    return {type: DISABLE_RES_BUTTON, value}
+};
+
+export const incValueAC = (value) => {
+    return {type: INC_VALUE, value}
+};
+
+export const resetIncValueAC = (value) => {
+    return {type: RESET_INC_VALUE, value }
+};
 
 export default reducer;
