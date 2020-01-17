@@ -12,7 +12,7 @@ const intitialState = {
     startValue: 0,
     startText: 'enter values and press \'set\' ',
     errorText: 'Incorrect value!',
-    maxValue: '',
+    maxValue: 0,
     buttons: [
         {title: 'inc', disabled: true, id: 1},
         {title: 'reset', disabled: true, id: 2},
@@ -49,12 +49,12 @@ const reducer = (state = intitialState, action) => {
                 })
             };
         case DISABLE_INC_BUTTON:
+            debugger
             return {
                 ...state,
                 buttons: state.buttons.map(b => {
                     if (b.id === 1) {
-                        if (state.maxValue === action.value) {
-                            debugger
+                        if (+(state.maxValue) === action.value) {
                             return {...b, disabled: true}
                         } else {
                             return {...b, disabled: false}
@@ -123,3 +123,5 @@ export const resetIncValueAC = (value) => {
 };
 
 export default reducer;
+
+window.state = intitialState;
