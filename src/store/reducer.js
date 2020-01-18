@@ -41,15 +41,14 @@ const reducer = (state = intitialState, action) => {
             return {
                 ...state,
                 buttons: state.buttons.map(b => {
-                    if (+(action.value) === 1 && b.id === 3) {
+                    if (+(action.value) >= 0 && b.id === 3) {
                         return  {...b, disabled: false}
                     } else {
-                        return b;
+                        return {...b, disabled: true};
                     }
                 })
             };
         case DISABLE_INC_BUTTON:
-            debugger
             return {
                 ...state,
                 buttons: state.buttons.map(b => {
